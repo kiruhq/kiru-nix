@@ -20,15 +20,15 @@
   wayland,
   xdg-utils,
   xorg,
+  zenity,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "kiru";
-  version = "0.4.3";
+  version = "0.4.4-rc.2";
 
   src = fetchurl {
     url = "https://releases.kiru.app/releases/linux/Kiru-${finalAttrs.version}-linux-x86_64.tar.gz";
-    hash = "sha256-sl4EDob/yKcF708lfR6PPweLDeo/h4GMRCi2yz0JS4o=";
+    hash = "sha256-z4RpWV/Er4xjmp0O3QjXyF/ONzYIl8Aila+3xx6lHm8=";
   };
 
   sourceRoot = "Kiru-${finalAttrs.version}-linux-x86_64";
@@ -75,6 +75,7 @@ stdenv.mkDerivation (finalAttrs: {
         lib.makeBinPath [
           ffmpeg
           xdg-utils
+          zenity
         ]
       } \
       --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${
