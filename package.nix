@@ -26,6 +26,21 @@
   xdg-utils,
   zenity,
 }:
+let
+  # Single source of truth for the GStreamer derivations kiru needs at
+  # runtime — referenced both as buildInputs (so autoPatchelf links) and
+  # as the GST_PLUGIN_SYSTEM_PATH_1_0 wrap (so plugins are discoverable).
+  gstPlugins = with gst_all_1; [
+    gstreamer
+    gst-plugins-base
+    gst-plugins-good
+    gst-plugins-bad
+    gst-plugins-ugly
+    gst-libav
+    gst-plugins-rs
+    gst-vaapi
+  ];
+in
 stdenv.mkDerivation (finalAttrs: {
   pname = "kiru";
   version = "0.4.4";
@@ -47,11 +62,6 @@ stdenv.mkDerivation (finalAttrs: {
     fontconfig
     freetype
     glib
-    gst_all_1.gstreamer
-    gst_all_1.gst-plugins-base
-    gst_all_1.gst-plugins-good
-    gst_all_1.gst-plugins-bad
-    gst_all_1.gst-plugins-ugly
     gtk3
     libGL
     libpulseaudio
@@ -66,7 +76,7 @@ stdenv.mkDerivation (finalAttrs: {
     libxi
     libxrandr
     libxcb
-  ];
+  ] ++ gstPlugins;
 
   installPhase = ''
     runHook preInstall
@@ -83,12 +93,7 @@ stdenv.mkDerivation (finalAttrs: {
         ]
       } \
       --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${
-        lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
-          gst_all_1.gst-plugins-base
-          gst_all_1.gst-plugins-good
-          gst_all_1.gst-plugins-bad
-          gst_all_1.gst-plugins-ugly
-        ]
+        lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" gstPlugins
       }"
 
     runHook postInstall
