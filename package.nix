@@ -13,22 +13,26 @@
   gtk3,
   libGL,
   libpulseaudio,
+  libx11,
+  libxcursor,
+  libxi,
+  libxrandr,
+  libxcb,
   libxkbcommon,
   openssl,
   sqlite,
   vulkan-loader,
   wayland,
   xdg-utils,
-  xorg,
   zenity,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "kiru";
-  version = "0.4.4-rc.2";
+  version = "0.4.4";
 
   src = fetchurl {
     url = "https://releases.kiru.app/releases/linux/Kiru-${finalAttrs.version}-linux-x86_64.tar.gz";
-    hash = "sha256-z4RpWV/Er4xjmp0O3QjXyF/ONzYIl8Aila+3xx6lHm8=";
+    hash = "sha256-OTZ9hdSFl+1TPt2SAKeqVjwSHnuzgzhhWXo/3/Du+DY=";
   };
 
   sourceRoot = "Kiru-${finalAttrs.version}-linux-x86_64";
@@ -57,11 +61,11 @@ stdenv.mkDerivation (finalAttrs: {
     stdenv.cc.cc.lib
     vulkan-loader
     wayland
-    xorg.libX11
-    xorg.libXcursor
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libxcb
+    libx11
+    libxcursor
+    libxi
+    libxrandr
+    libxcb
   ];
 
   installPhase = ''
