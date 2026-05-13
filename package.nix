@@ -43,11 +43,11 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "kiru";
-  version = "0.4.4";
+  version = "0.4.6";
 
   src = fetchurl {
     url = "https://releases.kiru.app/releases/linux/Kiru-${finalAttrs.version}-linux-x86_64.tar.gz";
-    hash = "sha256-OTZ9hdSFl+1TPt2SAKeqVjwSHnuzgzhhWXo/3/Du+DY=";
+    hash = "sha256-QCtVdyvMVpozKRI3P6++qAsnTFI7X/BVs1mtQ89zaNI=";
   };
 
   sourceRoot = "Kiru-${finalAttrs.version}-linux-x86_64";
@@ -76,7 +76,8 @@ stdenv.mkDerivation (finalAttrs: {
     libxi
     libxrandr
     libxcb
-  ] ++ gstPlugins;
+  ]
+  ++ gstPlugins;
 
   installPhase = ''
     runHook preInstall
